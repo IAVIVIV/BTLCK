@@ -33,7 +33,8 @@ public class Service {
 			int maxNumber = ID.cutNumber(maxID);
 			Factory f = new Factory();
 			DB_ID db_ID = new DB_ID("user", maxNumber);
-			User user = f.createUser(db_ID, username, email, encryptedStringPassword);
+			String password = Service.decrypt(key, encryptedStringPassword);
+			User user = f.createUser(db_ID, username, email, password);
 //			String key = Service.createKey();
 //			Password encryptedStringPassword = f.createPassword(Service.encrypt(key, password));
 			Repository r = new RepositoryImp();

@@ -20,7 +20,7 @@ public class Client {
 	public Client(String clientIP, String serverIP, int serverPort) {
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
-		this.clientIP = "192.168.1.3"; // Bạn có thể thay đổi IP của client nếu cần
+		this.clientIP = clientIP; // Bạn có thể thay đổi IP của client nếu cần
 	}
 
 	public void start(String nameBtn, List<String> list) throws Exception {
@@ -33,29 +33,30 @@ public class Client {
 
 			// Luồng gửi tin nhắn tới server
 //			Scanner scanner = new Scanner(System.in);
-			while (true) {
+
+//			while (true) {
 //				System.out.println("Enter the button name:");
 //				String nameButton = scanner.nextLine();
 //				System.out.println("Enter your message:");
 //				String content = scanner.nextLine();
 
-				if (nameBtn.equals("Đăng ký")) {
-					String username = list.get(0);
-					String email = list.get(1);
-					String password = list.get(2);
-					String key = Service.createKey();
-					String encryptedStringPassword = Service.encrypt(key, password);
-					List<String> encryptedList = new ArrayList<String>();
-					encryptedList.add(username);
-					encryptedList.add(email);
-					encryptedList.add(encryptedStringPassword);
-					encryptedList.add(key);
+			if (nameBtn.equals("Đăng ký")) {
+				String username = list.get(0);
+				String email = list.get(1);
+				String password = list.get(2);
+				String key = Service.createKey();
+				String encryptedStringPassword = Service.encrypt(key, password);
+				List<String> encryptedList = new ArrayList<String>();
+				encryptedList.add(username);
+				encryptedList.add(email);
+				encryptedList.add(encryptedStringPassword);
+				encryptedList.add(key);
 //					DTO_Register message = new DTO_Register(username, email, encryptedStringPassword);
-					sendMessage(nameBtn, encryptedList);
-				}
-
+				sendMessage(nameBtn, encryptedList);
 			}
-		} catch (IOException e) {
+		}
+//		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

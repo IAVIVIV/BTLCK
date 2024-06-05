@@ -73,18 +73,20 @@ public class Server {
 			try (ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 				out = new ObjectOutputStream(socket.getOutputStream());
 
-				while (true) {
-					String nameButton = in.readUTF();
-					List<String> message = (List<String>) in.readObject();
+//				while (true) {
+				String nameButton = in.readUTF();
+				List<String> message = (List<String>) in.readObject();
 
-					// Xử lý hành động theo nameButton và gửi phản hồi hoặc broadcast
-					if (nameButton.equals("Đăng ký")) {
-						UseCase.register(message.get(0), message.get(1), message.get(2), message.get(3));
+				// Xử lý hành động theo nameButton và gửi phản hồi hoặc broadcast
+				if (nameButton.equals("Đăng ký")) {
+					System.out.println(
+							message.get(0) + "   " + message.get(1) + "   " + message.get(2) + "   " + message.get(3));
+					UseCase.register(message.get(0), message.get(1), message.get(2), message.get(3));
 //						server.broadcast(message, this);
-					} else {
-						// Thực hiện các hành động khác theo yêu cầu
-					}
+				} else {
+					// Thực hiện các hành động khác theo yêu cầu
 				}
+//				}
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -100,12 +102,18 @@ public class Server {
 			}
 		}
 
-		public void sendMessage(DTO_Message message) {
-			try {
-				out.writeObject(message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		public void sendMessage(DTO_Message message) {
+//			try {
+//				out.writeObject(message);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+	}
+
+	public static void main(String[] args) {
+		int port = 12345;
+		Server server = new Server(port);
+		server.startServer();
 	}
 }
