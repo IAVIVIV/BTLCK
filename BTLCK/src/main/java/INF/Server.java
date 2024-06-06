@@ -11,6 +11,7 @@ import java.util.Set;
 
 import APP.DTO_Message;
 import APP.UseCase;
+import DOMAIN.Service;
 
 public class Server {
 
@@ -45,15 +46,16 @@ public class Server {
 //		}
 //	}
 
-//	public synchronized void broadcast(Message message) {
-//		String destinationIP = message.getDestinationIP();
-//		for (ClientHandler client : clientHandlers) {
-//			if (client.getClientIP().equals(destinationIP)) {
-//				client.sendMessage(message);
-//				break; // Gửi tin nhắn chỉ đến một client duy nhất
-//			}
-//		}
-//	}
+	public synchronized void broadcast(DTO_Message message) {
+		String destinationIP = message.getDestinationIP();
+		for (ClientHandler client : clientHandlers) {
+			if (client.getSocket().getInetAddress().getHostAddress().equals(destinationIP)) {
+//				System.out.println(client.getSocket().getInetAddress().getHostAddress() + " Day la lop server");
+				client.sendMessage(message);
+				break; // Gửi tin nhắn chỉ đến một client duy nhất
+			}
+		}
+	}
 
 	public synchronized void removeClient(ClientHandler clientHandler) {
 		clientHandlers.remove(clientHandler);
@@ -81,10 +83,23 @@ public class Server {
 				if (nameButton.equals("Đăng ký")) {
 					System.out.println(
 							message.get(0) + "   " + message.get(1) + "   " + message.get(2) + "   " + message.get(3));
-					UseCase.register(message.get(0), message.get(1), message.get(2), message.get(3));
+					String username = message.get(0);
+					String email = message.get(1);
+					String encryptedStringPassword = message.get(2);
+					String key = message.get(3);
+					UseCase.register(username, email, encryptedStringPassword, key);
 //						server.broadcast(message, this);
-				} else {
-					// Thực hiện các hành động khác theo yêu cầu
+				} else if (nameButton.equals("Đăng nhập")) {
+					Service s = new Service();
+					String username = message.get(0);
+					String encryptedStringPassword = message.get(1);
+					String key = message.get(2);
+					String ClientIP = message.get(3);
+					String password = Service.decrypt(key, encryptedStringPassword);
+					Boolean b = s.logIn(username, password);
+//					DTO_Login dto_Login = new DTO_Login(ClientIP, b);
+					DTO_Message dto_Message = new DTO_Message(b.toString(), ClientIP, ClientIP);
+					server.broadcast(dto_Message);
 				}
 //				}
 			} catch (IOException | ClassNotFoundException e) {
@@ -102,13 +117,17 @@ public class Server {
 			}
 		}
 
-//		public void sendMessage(DTO_Message message) {
-//			try {
-//				out.writeObject(message);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		public Socket getSocket() {
+			return socket;
+		}
+
+		public void sendMessage(DTO_Message message) {
+			try {
+				out.writeObject(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) {

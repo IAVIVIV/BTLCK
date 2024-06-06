@@ -3,6 +3,8 @@ package UI;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -72,13 +74,13 @@ public class ViewRegister extends JFrame {
 
 		txtTiKhon = new JTextField();
 
-//		txtTiKhon.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtTiKhon.setText("");
-//				txtTiKhon.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtTiKhon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtTiKhon.setText("");
+				txtTiKhon.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtTiKhon.setForeground(new Color(221, 223, 226));
 		txtTiKhon.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -89,13 +91,13 @@ public class ViewRegister extends JFrame {
 
 		txtEmail = new JTextField();
 
-//		txtEmail.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtEmail.setText("");
-//				txtEmail.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtEmail.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtEmail.setText("");
+				txtEmail.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtEmail.setText("Email");
 		txtEmail.setForeground(new Color(221, 223, 226));
@@ -106,13 +108,13 @@ public class ViewRegister extends JFrame {
 
 		txtMtKhu = new JTextField();
 
-//		txtMtKhu.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtMtKhu.setText("");
-//				txtMtKhu.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtMtKhu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtMtKhu.setText("");
+				txtMtKhu.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtMtKhu.setText("Mật khẩu");
 		txtMtKhu.setForeground(new Color(221, 223, 226));
@@ -123,13 +125,13 @@ public class ViewRegister extends JFrame {
 
 		txtNhpLiMt = new JTextField();
 
-//		txtNhpLiMt.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtNhpLiMt.setText("");
-//				txtNhpLiMt.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtNhpLiMt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtNhpLiMt.setText("");
+				txtNhpLiMt.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtNhpLiMt.setText("Nhập lại mật khẩu");
 		txtNhpLiMt.setForeground(new Color(221, 223, 226));

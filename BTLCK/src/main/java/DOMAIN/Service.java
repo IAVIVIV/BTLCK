@@ -62,11 +62,15 @@ public class Service {
 	public boolean logIn(String username, String password) throws Exception {
 		Repository r = new RepositoryImp();
 		DTOUser dto_User = r.userExists(username);
-		String decryptedStringPassword = decrypt(dto_User.getKey(), dto_User.getPassword().getPassWord());
-		if (decryptedStringPassword.equals(password)) {
-			return true;
-		} else {
+		if (dto_User.equals(null)) {
 			return false;
+		} else {
+			String decryptedStringPassword = decrypt(dto_User.getKey(), dto_User.getPassword().getPassWord());
+			if (decryptedStringPassword.equals(password)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 

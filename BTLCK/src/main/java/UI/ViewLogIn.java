@@ -3,6 +3,8 @@ package UI;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,7 +45,6 @@ public class ViewLogIn extends JFrame {
 	 */
 	public ViewLogIn() {
 		ControllerLogIn ct = new ControllerLogIn();
-		Controllers cts = new Controllers();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 465, 340);
@@ -68,15 +69,13 @@ public class ViewLogIn extends JFrame {
 
 		txtTiKhon = new JTextField();
 
-//		txtTiKhon.addMouseListener(cts);
-
-//		txtTiKhon.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtTiKhon.setText("");
-//				txtTiKhon.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtTiKhon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtTiKhon.setText("");
+				txtTiKhon.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtTiKhon.setForeground(new Color(221, 223, 226));
 		txtTiKhon.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -88,13 +87,13 @@ public class ViewLogIn extends JFrame {
 
 		txtMtKhu = new JTextField();
 
-//		txtMtKhu.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtMtKhu.setText("");
-//				txtMtKhu.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtMtKhu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtMtKhu.setText("");
+				txtMtKhu.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtMtKhu.setForeground(new Color(221, 223, 226));
 		txtMtKhu.setFont(new Font("SansSerif", Font.PLAIN, 12));

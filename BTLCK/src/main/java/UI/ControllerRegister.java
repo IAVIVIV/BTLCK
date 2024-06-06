@@ -29,6 +29,7 @@ public class ControllerRegister implements ActionListener {
 				list.add(matKhau);
 				try {
 					client.start(nameBtn, list);
+					ViewRegister.frame.setVisible(false);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
