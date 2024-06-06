@@ -9,8 +9,9 @@ public class UseCase {
 		s.register(username, email, encryptedStringPassword, key);
 	}
 
-//	public static void sendMessage(String sender, String receiver, String content) throws Exception {
-//		Service s = new Service();
-//		s.saveMessage(sender, receiver, content);
-//	}
+	public static void sendMessage(String sender, String receiver, String encryptedStringContent, String key)
+			throws Exception {
+		Service s = new Service();
+		s.saveMessage(sender, receiver, encryptedStringContent, key);
+	}
 }

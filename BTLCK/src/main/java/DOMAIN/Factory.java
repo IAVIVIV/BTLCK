@@ -35,13 +35,13 @@ public class Factory {
 		return new Password(password);
 	}
 
-//	public Message createMessage(DB_ID id, String sender, String receiver, String content) {
-//		ID idClone = createID(id);
-//		String senderClone = sender;
-//		String receiverClone = receiver;
-//		String contentClone = content;
-//		return new Message(idClone, senderClone, receiverClone, contentClone);
-//	}
+	public Message createMessage(DB_ID id, String sender, String receiver, String content) {
+		ID idClone = createID(id);
+		String senderClone = sender;
+		String receiverClone = receiver;
+		String contentClone = content;
+		return new Message(idClone, senderClone, receiverClone, contentClone);
+	}
 
 	public boolean checkUser(String email, String password) {
 		if (Email.isValidEmail(email) && Password.isValidPassWord(password)) {

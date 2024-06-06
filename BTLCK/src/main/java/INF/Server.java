@@ -11,6 +11,7 @@ import java.util.Set;
 
 import APP.DTO_Message;
 import APP.UseCase;
+import DOMAIN.Repository;
 import DOMAIN.Service;
 
 public class Server {
@@ -98,7 +99,39 @@ public class Server {
 					String password = Service.decrypt(key, encryptedStringPassword);
 					Boolean b = s.logIn(username, password);
 //					DTO_Login dto_Login = new DTO_Login(ClientIP, b);
-					DTO_Message dto_Message = new DTO_Message(b.toString(), ClientIP, ClientIP);
+					DTO_Message dto_Message = new DTO_Message(b.toString(), "Đăng nhập", ClientIP);
+					server.broadcast(dto_Message);
+				} else if (nameButton.equals("accept_e")) {
+					String email = message.get(0);
+					String clientIP = message.get(1);
+					Repository r = new RepositoryImp();
+					String username = r.findUser(email);
+					if (username == null) {
+						username = "null";
+					}
+					DTO_Message dto_Message = new DTO_Message(username, "accept_e", clientIP);
+					server.broadcast(dto_Message);
+				} else if (nameButton.equals("Reload message")) {
+					String sender = message.get(0);
+					String receiver = message.get(1);
+					String clientIP = message.get(2);
+					Service s = new Service();
+					List<String> l = s.reloadMessage(sender, receiver);
+					DTO_Message dto_Message = new DTO_Message("Reload message", "Reload message", clientIP);
+					dto_Message.setL(l);
+					server.broadcast(dto_Message);
+				} else if (nameButton.equals("Send")) {
+					String sender = message.get(0);
+					String receiver = message.get(1);
+					String encryptedStringContent = message.get(2);
+					String destinationIP = message.get(3);
+					String clientIP = message.get(4);
+					String key = message.get(5);
+					UseCase.sendMessage(sender, receiver, encryptedStringContent, key);
+					Service s = new Service();
+					List<String> l = s.reloadMessage(sender, receiver);
+					DTO_Message dto_Message = new DTO_Message(encryptedStringContent, "Reload message", destinationIP);
+					dto_Message.setL(l);
 					server.broadcast(dto_Message);
 				}
 //				}
@@ -122,6 +155,14 @@ public class Server {
 		}
 
 		public void sendMessage(DTO_Message message) {
+			try {
+				out.writeObject(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void sendMessages(List<String> message) {
 			try {
 				out.writeObject(message);
 			} catch (IOException e) {

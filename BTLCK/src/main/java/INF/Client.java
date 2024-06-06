@@ -45,6 +45,7 @@ public class Client {
 //				String content = scanner.nextLine();
 
 		List<String> encryptedList = new ArrayList<String>();
+		List<String> listo = new ArrayList<String>();
 		if (nameBtn.equals("Đăng ký")) {
 			String username = list.get(0);
 			String email = list.get(1);
@@ -69,6 +70,37 @@ public class Client {
 			encryptedList.add(key);
 			encryptedList.add(ClientIP);
 			sendMessage(nameBtn, encryptedList);
+		} else if (nameBtn.equals("accept_e")) {
+			String email = list.get(0);
+			String clientIP = list.get(1);
+//			List<String> listo = new ArrayList<String>();
+			listo.add(email);
+			listo.add(clientIP);
+			sendMessage(nameBtn, listo);
+		} else if (nameBtn.equals("Reload message")) {
+			String sender = list.get(0);
+			String receiver = list.get(1);
+			String clientIP = list.get(2);
+//			List<String> listo = new ArrayList<String>();
+			listo.add(sender);
+			listo.add(receiver);
+			listo.add(clientIP);
+			sendMessage(nameBtn, listo);
+		} else if (nameBtn.equals("Send")) {
+			String sender = list.get(0);
+			String receiver = list.get(1);
+			String content = list.get(2);
+			String destinationIP = list.get(3);
+			String clientIP = list.get(4);
+			String key = Service.createKey();
+			String encryptedStringContent = Service.encrypt(key, content);
+			listo.add(sender);
+			listo.add(receiver);
+			listo.add(encryptedStringContent);
+			listo.add(destinationIP);
+			listo.add(clientIP);
+			listo.add(key);
+			sendMessage(nameBtn, listo);
 		}
 	}
 //		} 
@@ -98,10 +130,23 @@ public class Client {
 			try {
 //				while (true) {
 				DTO_Message message = (DTO_Message) in.readObject();
-				if (message.getContent().equals("true")) {
-					ViewChat.main(null);
-					ViewLogIn.frame.setVisible(false);
+				if (message.getSourceIP().equals("Đăng nhập")) {
+					if (message.getContent().equals("true")) {
+						ViewChat.main(null);
+						ViewLogIn.frame.setVisible(false);
+					}
+				} else if (message.getSourceIP().equals("accept_e")) {
+					if (!message.getContent().equals("null")) {
+						ViewChat.listModel.addElement(message.getContent());
+					}
+				} else if (message.getSourceIP().equals("Reload message")) {
+					ViewChat.txtrSdgd.setText("");
+					List<String> content = message.getL();
+					for (String string : content) {
+						ViewChat.txtrSdgd.setText(ViewChat.txtrSdgd.getText() + string + "\n");
+					}
 				}
+//				}
 //				System.out.println("Received message: " + message.getContent());
 //				}
 			} catch (IOException | ClassNotFoundException e) {

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.crypto.Cipher;
 
 import APP.DB_ID;
+import APP.DTOMessage;
 //import APP.DTOMessage;
 import APP.DTOUser;
 import INF.Encryption;
@@ -44,20 +45,21 @@ public class Service {
 		}
 	}
 
-//	public void saveMessage(String sender, String receiver, String content) throws Exception {
-//		Service s = new Service();
-//		String maxID = s.maxID("message");
-//		int maxNumber = ID.cutNumber(maxID);
-//		Factory f = new Factory();
-//		DB_ID dto_ID = new DB_ID("msgr", maxNumber);
+	public void saveMessage(String sender, String receiver, String encryptedStringContent, String key)
+			throws Exception {
+		Service s = new Service();
+		String maxID = s.maxID("message");
+		int maxNumber = ID.cutNumber(maxID);
+		Factory f = new Factory();
+		DB_ID dto_ID = new DB_ID("msgr", maxNumber);
 //		String key = Service.createKey();
 //		String encryptedStringContent = Service.encrypt(key, content);
-//		Message message = f.createMessage(dto_ID, sender, receiver, encryptedStringContent);
-//		Repository r = new RepositoryImp();
-//		DTOMessage dto_Message = new DTOMessage(message.getId(), message.getSender(), message.getReceiver(),
-//				encryptedStringContent, key);
-//		r.addMessage(dto_Message);
-//	}
+		Message message = f.createMessage(dto_ID, sender, receiver, encryptedStringContent);
+		Repository r = new RepositoryImp();
+		DTOMessage dto_Message = new DTOMessage(message.getId(), message.getSender(), message.getReceiver(),
+				encryptedStringContent, key);
+		r.addMessage(dto_Message);
+	}
 
 	public boolean logIn(String username, String password) throws Exception {
 		Repository r = new RepositoryImp();
@@ -74,23 +76,23 @@ public class Service {
 		}
 	}
 
-//	public List<String> reloadMessage(String sender, String receiver) throws Exception {
-//		Repository r = new RepositoryImp();
-//		List<DTOMessage> l_Message = r.messageExists(sender, receiver);
-//		List<String> l_String = new ArrayList<String>();
-//		for (DTOMessage dto_Message : l_Message) {
-//			String decryptedStringMessage = decrypt(dto_Message.getKey(), dto_Message.getContent());
-//			String message;
-//			if (sender.equals(dto_Message.getSender())) {
-//				message = sender + " :  " + decryptedStringMessage;
-//				l_String.add(message);
-//			} else if (sender.equals(dto_Message.getReceiver())) {
-//				message = receiver + " :  " + decryptedStringMessage;
-//				l_String.add(message);
-//			}
-//		}
-//		return l_String;
-//	}
+	public List<String> reloadMessage(String sender, String receiver) throws Exception {
+		Repository r = new RepositoryImp();
+		List<DTOMessage> l_Message = r.messageExists(sender, receiver);
+		List<String> l_String = new ArrayList<String>();
+		for (DTOMessage dto_Message : l_Message) {
+			String decryptedStringMessage = decrypt(dto_Message.getKey(), dto_Message.getContent());
+			String message;
+			if (sender.equals(dto_Message.getSender())) {
+				message = sender + " :  " + decryptedStringMessage;
+				l_String.add(message);
+			} else if (sender.equals(dto_Message.getReceiver())) {
+				message = receiver + " :  " + decryptedStringMessage;
+				l_String.add(message);
+			}
+		}
+		return l_String;
+	}
 
 	public static String createKey() throws Exception {
 		return Encryption.generateKey(Encryption.generateKeyLength());

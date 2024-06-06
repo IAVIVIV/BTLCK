@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -14,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import INF.Client;
 
 public class ViewChat extends JFrame {
 
@@ -67,6 +73,7 @@ public class ViewChat extends JFrame {
 		panel.setLayout(null);
 
 		txtT = new JTextField();
+		txtT.setEnabled(false);
 		txtT.setBackground(new Color(221, 223, 226));
 		txtT.setFont(new Font("SansSerif", Font.BOLD, 13));
 		txtT.setBounds(0, 360, 458, 36);
@@ -102,17 +109,17 @@ public class ViewChat extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(jList);
 		panel_1.add(scrollPane, BorderLayout.CENTER);
 
-//		jList.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if (e.getClickCount() == 1) {
-//					System.out.println("Chaof ngay moi vui ve");
-//					int index = jList.locationToIndex(e.getPoint());
-//					if (index >= 0) {
+		jList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					int index = jList.locationToIndex(e.getPoint());
+					if (index >= 0) {
+						txtT.setEnabled(true);
 //						txtrSdgd.setText("");
-//						String sender = ViewLogIn.username;
-//						String receiver = jList.getModel().getElementAt(index);
-//						ViewChat.selectUser = receiver;
+						String sender = ViewLogIn.username;
+						String receiver = jList.getModel().getElementAt(index);
+						ViewChat.selectUser = receiver;
 //						Service s = new Service();
 //						try {
 //							List<String> content = s.reloadMessage(sender, receiver);
@@ -122,10 +129,25 @@ public class ViewChat extends JFrame {
 //						} catch (Exception e1) {
 //							e1.printStackTrace();
 //						}
-//					}
-//				}
-//			}
-//		});
+						String nameBtn = "Reload message";
+						String serverIP = "192.168.1.3";
+						int serverPort = 12345;
+						String clientIP = "192.168.1.3";
+						Client client = new Client(clientIP, serverIP, serverPort);
+						List<String> list = new ArrayList<String>();
+						list.add(sender);
+						list.add(receiver);
+						list.add(clientIP);
+						try {
+							client.start(nameBtn, list);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(314, 0, 457, 72);
@@ -134,13 +156,13 @@ public class ViewChat extends JFrame {
 
 		txtNhpEmail = new JTextField();
 
-//		txtNhpEmail.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtNhpEmail.setText("");
-//				txtNhpEmail.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtNhpEmail.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtNhpEmail.setText("");
+				txtNhpEmail.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtNhpEmail.setBackground(new Color(255, 255, 255));
 		txtNhpEmail.setForeground(new Color(221, 223, 226));
@@ -152,13 +174,13 @@ public class ViewChat extends JFrame {
 
 		txtNhpIp = new JTextField();
 
-//		txtNhpIp.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				txtNhpIp.setText("");
-//				txtNhpIp.setForeground(new Color(0, 0, 0));
-//			}
-//		});
+		txtNhpIp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtNhpIp.setText("");
+				txtNhpIp.setForeground(new Color(0, 0, 0));
+			}
+		});
 
 		txtNhpIp.setForeground(new Color(221, 223, 226));
 		txtNhpIp.setFont(new Font("SansSerif", Font.PLAIN, 14));
